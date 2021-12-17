@@ -1,7 +1,7 @@
 {% extends 'page.html' %}
 
 {% block content %}
-    <section class="w3-container" style="padding-bottom: 4rem;">
+    <section class="w3-container w3-padding-large" style="padding-bottom: 4rem;">
 
         <h2>Clientes</h2>
 
@@ -9,11 +9,13 @@
             <!-- Botão Novo cliente -->
             <a href="{% url 'customers:customer-create' %}" class="w3-bar-item w3-btn w3-circle w3-indigo w3-right" style="margin-bottom: .5rem;"><b>+</b></a>
 
-            <!-- Pesquisar por nome -->
+            <!-- Pesquisar -->
             <form>
                 {% csrf_token %}
-                <input class="w3-bar-item w3-border" type="text" name="search" placeholder="Buscar por nome...">
-                <button class="w3-button w3-black w3-bar-item w3-border w3-border-black">Buscar</button>
+                <input class="w3-bar-item w3-border" type="text" name="search" placeholder="Buscar...">
+                <button class="w3-button w3-black w3-bar-item w3-border w3-border-black w3-hover-border-black">
+                    <i class="fa fa-search"></i>
+                </button>
             </form>
         </div>
 
@@ -36,14 +38,18 @@
                     <td class="w3-border-right">{{ customer.get_full_city }}</td>
                     <td class="w3-border-right">{{ customer.get_full_phone_number }}</td>
                     <td class="w3-border-right">{{ customer.email }}</td>
-                    <form method="post" action="{{ customer.get_absolute_url }}delete/">
-                        {% csrf_token %}
-                        <td class="w3-center">
+                    <td class="w3-center">
+                        <form method="post" action="{{ customer.get_absolute_url }}delete/">
+                            {% csrf_token %}
                             <button type="submit" class="w3-btn w3-red">
-                                Deletar
+                                <i class="fa fa-trash" style="padding: 0 0.1rem;"></i>
                             </button>
-                        </td>
-                    </form>
+                            <a href="{{ customer.get_absolute_url }}" class="w3-btn w3-teal">
+                            <i class="fa fa-eye" style=""></i>
+                        </a>
+                        </form>
+                    </td>
+
                 </tr>
             {% empty %}
                 <h4>Sem dados para exibir</h4>
