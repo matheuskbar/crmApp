@@ -1,0 +1,73 @@
+{% extends 'page.html' %}
+
+{% block content %}
+    <section class="w3-container" style="padding-bottom: 4rem;">
+
+        <h2>Clientes</h2>
+
+        <div class="w3-bar">
+            <!-- Botão Novo cliente -->
+            <a href="{% url 'customers:customer-create' %}" class="w3-bar-item w3-btn w3-circle w3-indigo w3-right" style="margin-bottom: .5rem;"><b>+</b></a>
+
+            <!-- Pesquisar por nome -->
+            <form>
+                {% csrf_token %}
+                <input class="w3-bar-item w3-border" type="text" name="search" placeholder="Buscar por nome...">
+                <button class="w3-button w3-black w3-bar-item w3-border w3-border-black">Buscar</button>
+            </form>
+        </div>
+
+        <!-- Tabela de clientes -->
+        <table class="w3-table w3-striped w3-border">
+            <tr class="w3-green">
+                <th class="w3-border-right">Nome</th>
+                <th class="w3-border-right">Cidade</th>
+                <th class="w3-border-right">Telefone</th>
+                <th class="w3-border-right">E-mail</th>
+                <th></th>
+            </tr>
+            {% for customer in customer_list %}
+                <tr>
+                    <td class="w3-border-right">
+                        <a href="{{ customer.get_absolute_url }}" class="w3-text-indigo">
+                            {{ customer.get_full_name }}
+                        </a>
+                    </td>
+                    <td class="w3-border-right">{{ customer.get_full_city }}</td>
+                    <td class="w3-border-right">{{ customer.get_full_phone_number }}</td>
+                    <td class="w3-border-right">{{ customer.email }}</td>
+                    <form method="post" action="{{ customer.get_absolute_url }}delete/">
+                        {% csrf_token %}
+                        <td class="w3-center">
+                            <button type="submit" class="w3-btn w3-red">
+                                Deletar
+                            </button>
+                        </td>
+                    </form>
+                </tr>
+            {% empty %}
+                <h4>Sem dados para exibir</h4>
+            {% endfor %}
+        </table>
+
+        <!-- Paginação -->
+        {% if page_obj %}
+            <div class="w3-bar w3-border w3-center" style="margin-top: 0.5rem;">
+                {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}" class="w3-button w3-hover-green">&laquo;</a>
+                {% else %}
+                    <a class="w3-button w3-disabled">&laquo;</a>
+                {% endif %}
+                {% for page in page_obj.paginator.page_range %}
+                    <a href="?page={{ forloop.counter }}" class="w3-button w3-hover-green">{{ forloop.counter }}</a>
+                {% endfor %}
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}" class="w3-button w3-hover-green">&raquo;</a>
+                {% else %}
+                    <a class="w3-button w3-disabled">&raquo;</a>
+                {% endif %}
+            </div>
+        {% endif %}
+
+    </section>
+{% endblock %}

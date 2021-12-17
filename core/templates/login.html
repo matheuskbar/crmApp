@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+
+    <title>Login</title>
+
+</head>
+<body>
+    <!--  -->
+    <div class="w3-row">
+        <div class="container-height w3-half w3-black w3-container w3-center">
+            <div class="w3-padding-64">
+                <h1>CRM App</h1>
+            </div>
+            <div class="w3-padding-64">
+                <h5>Desenvolvido por Matheus Kontarski</h5>
+                <p>Todos os direitos reservados à todos</p>
+                <p>2021</p>
+            </div>
+        </div>
+        <div class="container-height w3-half w3-indigo w3-container">
+            <div class="w3-padding-64 w3-center">
+                <h1>Login</h1>
+                <div class="w3-left-align w3-padding-large">
+                    <form class="form-padding w3-light-grey" action="{% url 'login' %}" method="post">
+                        {% csrf_token %}
+                        <label class="w3-text-indigo">Usuário</label>
+                        <input class="input-margin w3-input w3-border-0" name="username" type="text" required>
+
+                        <label class="w3-text-indigo">Senha</label>
+                        <input class="input-margin w3-input w3-border-0" name="password" type='password' required>
+                        {% if messages %}
+                            {% for message in messages %}
+                                <p class="w3-panel w3-pale-red">{{ message }}</p>
+                            {% endfor %}
+                        {% endif %}
+                        <button type="submit" class="w3-btn w3-indigo w3-block">
+                            Entrar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
